@@ -4,23 +4,27 @@ from bs4 import BeautifulSoup
 from colorama import Fore , init , Back
 init(autoreset=False)
 
-print(Fore.LIGHTRED_EX + """ 
-┌─────────────────────────────────────────────┐
-│              *** Proxy ***                  │ 
-├─────────────────────────────────────────────┤
-│       Gelistirilme Asamasındadır            │
-│          + Eklenicek                        │
-│          + Eklenicek                        │
-│          + Eklenicek                        │
-│          + Eklenicek                        │
-├─────────────────────────────────────────────┤
-│ Link: https://github.com/mrhacker51         │             
-└─────────────────────────────────────────────┘
-""")
+
+def started():
+    print(Fore.LIGHTRED_EX + """ 
+    ┌─────────────────────────────────────────────┐
+    │              *** Proxy ***                  │ 
+    ├─────────────────────────────────────────────┤
+    │       Gelistirilme Asamasındadır            │
+    │          + Eklenicek                        │
+    │          + Eklenicek                        │
+    │          + Eklenicek                        │
+    │          + Eklenicek                        │
+    ├─────────────────────────────────────────────┤
+    │ Link: https://github.com/mrhacker51         │             
+    └─────────────────────────────────────────────┘
+    """)
+    
+started()
 
 def get_proxy_address():
     url = "https://api.proxyscrape.com/?request=displayproxies&proxytype=socks5&country=all"
-    r = requests.get(url)
+    r = requests.get(url).content
     return r
 
 answered = get_proxy_address()
@@ -29,7 +33,7 @@ def proxy_address_registery():
     try:
         with open("proxies.txt","w") as proxy:
             if answered.status_code == 200:
-                beautiful_proxy = BeautifulSoup(answered.content,"html.parser")
+                beautiful_proxy = BeautifulSoup(answered,"html.parser")
                 proxy.write(str(beautiful_proxy))
                 full_proxies_number = len(open("proxies.txt").readlines())
                 print(Fore.CYAN +"İslem Basarili")
