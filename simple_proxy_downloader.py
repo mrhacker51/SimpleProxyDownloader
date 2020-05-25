@@ -24,7 +24,7 @@ started()
 
 def get_proxy_address():
     url = "https://api.proxyscrape.com/?request=displayproxies&proxytype=socks5&country=all"
-    r = requests.get(url).content
+    r = requests.get(url)
     return r
 
 answered = get_proxy_address()
@@ -33,7 +33,7 @@ def proxy_address_registery():
     try:
         with open("proxies.txt","w") as proxy:
             if answered.status_code == 200:
-                beautiful_proxy = BeautifulSoup(answered,"html.parser")
+                beautiful_proxy = BeautifulSoup(answered.content,"html.parser")
                 proxy.write(str(beautiful_proxy))
                 full_proxies_number = len(open("proxies.txt").readlines())
                 print(Fore.CYAN +"İslem Basarili")
